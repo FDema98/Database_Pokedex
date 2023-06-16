@@ -1,0 +1,287 @@
+<!-- pokemon.ejs -->
+<!DOCTYPE html>
+<html lang="it" class="h-100" style="background-color: #bbe1ff;">
+
+<head>
+  <style>
+    tbody, td, tfoot, th, thead, tr {
+      padding: 15px 0;
+      font-size: 18px;
+    }
+
+    th{
+      font-size: 25px;;
+    }
+    </style>
+    
+  <script src="Chart.js"></script>
+  <script type="text/javascript" src="jquery.tablesorter.js"></script>
+  <meta charset="UTF-8" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  <title>Pokèdex</title>
+  <link rel="stylesheet" href="/path/to/theme.default.css">
+</head>
+
+
+
+  <nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <h1 style="font-size: 40px; font-weight: bold; margin-left: 2%;"><a style="text-decoration: none; color: #2e4c62;" href="/">Pokèdex</a></h1>
+      <div>
+        <a class="btn btn-outline-secondary" style="font-size: 20px; font-weight: bold; color: #2e4c62;" href="/strongerGeneration">Top Generation</a>
+      </div>
+      <form method="POST" action="/search" class="d-flex">
+      <input class="form-control me-2" style="font-size: 20px; border-color: #2e4c62;" type="search" placeholder="Search by name" aria-label="Search" name="name">
+      <button class="btn btn btn-secondary" style="font-size: 24px; padding: 0 6%; background-color: #2e4c62;" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+
+  <div id="query" class="container-fluid" style="padding: 2% 5% 2% 5%; background: linear-gradient(#6594b6,#bbe1ff);">
+  <form action="/query" method="POST">
+    
+      <div style="width: 33%; display: inline-block; padding: 0 2%;">
+  <label for="generation" style="width: 100%;font-size: 24px; font-weight: bold; text-align: center;">Generation</label>
+  <select name="generation" class="form-select" aria-label="Default select example">
+    <option value="0" selected>All</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+  </select>
+  <label for="rating" style="margin-top: 5%;width: 100%;font-size: 24px; font-weight: bold; text-align: center;">Rating</label>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">></span>
+    <input type="number" value="0" name="rating" class="form-control" placeholder="0" aria-label="Rating" aria-describedby="basic-addon1" required>
+  </div>
+</div>
+<div style="width: 33%;display: inline-block; padding: 0 2%;">
+  <label for="Type 1"
+    style="width: 100%;font-size: 24px; font-weight: bold; text-align: center;">Type 1</label>
+  <select name="type1" class="form-select" aria-label="Default select example">
+    <option value="all" selected>All</option>
+    <option value="Normal">Normal</option>
+    <option value="Fire">Fire</option>
+    <option value="Water">Water</option>
+    <option value="Grass">Grass</option>
+    <option value="Electric">Electric</option>
+    <option value="Ice">Ice</option>
+    <option value="Fighting">Fighting</option>
+    <option value="Poison">Poison</option>
+    <option value="Ground">Ground</option>
+    <option value="Flying">Flying</option>
+    <option value="Psychic">Psychic</option>
+    <option value="Bug">Bug</option>
+    <option value="Rock">Rock</option>
+    <option value="Dragon">Dragon</option>
+    <option value="Dark">Dark</option>
+    <option value="Steel">Steel</option>
+    <option value="Fairy">Fairy</option>
+    <option value="Ghost">Ghost</option>
+  </select>
+  <label for="Type 2"
+    style="margin-top: 5%; width: 100%;;font-size: 24px; font-weight: bold; text-align: center;">Type 2</label>
+  <select name="type2" class="form-select" aria-label="Default select example">
+    <option value="all" selected>All</option>
+    <option value="none">None</option>
+    <option value="Normal">Normal</option>
+    <option value="Fire">Fire</option>
+    <option value="Water">Water</option>
+    <option value="Grass">Grass</option>
+    <option value="Electric">Electric</option>
+    <option value="Ice">Ice</option>
+    <option value="Fighting">Fighting</option>
+    <option value="Poison">Poison</option>
+    <option value="Ground">Ground</option>
+    <option value="Flying">Flying</option>
+    <option value="Psychic">Psychic</option>
+    <option value="Bug">Bug</option>
+    <option value="Rock">Rock</option>
+    <option value="Dragon">Dragon</option>
+    <option value="Dark">Dark</option>
+    <option value="Steel">Steel</option>
+    <option value="Fairy">Fairy</option>
+    <option value="Ghost">Ghost</option>
+  </select>
+</div>
+<div style="width: 33%; display: inline-block; padding: 0 2%;">
+  <label for="legendary" style="width: 100%;font-size: 24px; font-weight: bold; text-align: center;">Legendary</label>
+  <select name="legendary" class="form-select" aria-label="Default select example" style="margin-bottom: 48px;">
+    <option selected value="undefined">Undefined</option>
+    <option value="False">False</option>
+    <option value="True">True</option>
+  </select>
+  <button class="btn btn-secondary" type="submit" style="font-size: 24px;width: 100%; padding: 3%; background-color: #2e4c62;">Submite</button>
+
+</div>
+</form>
+</div>
+
+
+
+  <div class="container-fluid" style="padding: 0 5% 1% 5%; background-color: #bbe1ff; ">
+    <table id="myTable" class="table-hover text-center sortable" style="border: solid 5px #2e4c62; width: 100%;">
+      <thead class="sticky-top">
+        <tr id="firstRow" class="first" style="background: linear-gradient(#2e4c62, #466e8b); color: #ffffff;">
+          <th style="cursor: pointer;">#</th>
+          <th style="cursor: pointer;">Name</th>
+          <th style="cursor: pointer;">Type 1</th>
+          <th style="cursor: pointer;">Type 2</th>
+          <th style="cursor: pointer;">HP</th>
+          <th style="cursor: pointer;">Atk</th>
+          <th style="cursor: pointer;">Sp. Atk</th>
+          <th style="cursor: pointer;">Def</th>
+          <th style="cursor: pointer;">Sp. Def</th>
+          <th style="cursor: pointer;">Speed</th>
+          <th style="cursor: pointer;">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(var i=0; i < pokemon.length; i++) {%>
+          <%switch (pokemon[i].Type1) {
+            case 'Grass': %>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #5fbb50 30%, #67db6d 99%);">
+            <%
+              break
+            case 'Fire':%>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #fe9d59 30%, #ffbe47 99%) ;">
+            <%
+              break
+              case 'Water': %>
+              <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #4f91db 30%, #6ac7e9 99%);">
+              <%
+                break
+                case 'Normal': %>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #b0bac3 30%, #ebece5 99%);">
+            <%
+              break
+              case 'Fighting': %>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #ce3d64 30%, #e94f54 99%);">
+            <%
+              break
+              case 'Flying': %>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #91a8de 30%, #a7c1f2 99%);">
+            <%
+              break
+              case 'Poison': %>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #c770d4 30%, #cc85f0 99%);">
+            <%
+              break
+              case 'Electric': %>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #f3d43e 30%, #ffe37f 99%);">
+            <%
+              break
+              case 'Psychic': %>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #f2726f 30%, #fda194 99%);">
+            <%
+              break
+              case 'Rock': %>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #c7b98c 30%, #f1edd0 99%);">
+            <%
+              break
+              case 'Ice': %>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #74d3bd 30%, #bbf5ef 99%);">
+            <%
+              break
+              case 'Steel': %>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #50879c 30%, #5aafb4 99%);">
+            <%
+              break
+              case 'Fairy': %>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #e7a7e1 30%, #ffc7f5 99%);">
+            <%
+              break
+              case 'Ghost': %>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #5069ac 30%, #8b86e9 99%);">
+            <%
+              break
+              case 'Dark': %>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #52505e 30%, #959799 99%);">
+            <%
+              break
+              case 'Bug': %>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #a8cf3d 30%, #c8e43e 99%);">
+            <%
+              break
+              case 'Dragon': %>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #1065b6 30%, #1293dd 99%);">
+            <%
+              break
+              case 'Ground': %>
+            <tr id="pokemon" style="color: #000000e8; background: linear-gradient(to bottom, #d87b40 30%, #d2976b 99%);">
+            <%
+              break
+            }%>
+            <td class="align-middle fw-bold" style="width: 5%; font-size: 18px;">
+              <%= pokemon[i].num_id %>
+            </td>
+            <td class="fw-bold" style="text-align: left; width: 30%; font-size: 18px;">
+              <%= pokemon[i].Name %>
+            </td>
+            <td class="align-middle fw-bold" style="font-size: 18px;">
+              <%= pokemon[i].Type1 %>
+            </td>
+            <td class="align-middle fw-bold" style="font-size: 18px;">
+              <%= pokemon[i].Type2 %>
+            </td>
+            <td class="align-middle fw-bold" style="width: 5%; font-size: 18px;">
+              <%= pokemon[i].HP %>
+            </td>
+            <td class="align-middle fw-bold" style="width: 5%; font-size: 18px;">
+              <%= pokemon[i].Attack %>
+            </td>
+            <td class="align-middle fw-bold" style="width: 5%; font-size: 18px;">
+              <%= pokemon[i].SpAttack %>
+            </td>
+            <td class="align-middle fw-bold" style="width: 5%; font-size: 18px;">
+              <%= pokemon[i].Defense %>
+            </td>
+            <td class="align-middle fw-bold" style="width: 5%; font-size: 18px;">
+              <%= pokemon[i].SpDefense %>
+            </td>
+            <td class="align-middle fw-bold" style="width: 5%; font-size: 18px;">
+              <%= pokemon[i].Speed %>
+            </td>
+            <td class="align-middle fw-bold" style="font-size: 18px;">
+              <%= pokemon[i].Total %>
+            </td>
+            
+
+            <% } %>
+      </tbody>
+    </table>
+  </div>
+
+
+
+  <script>
+  const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+
+  const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
+    v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+  )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+
+
+  document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+    const table = th.closest('table');
+    Array.from(table.querySelectorAll('tr:not(.first)'))
+      .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+      .forEach(tr => table.appendChild(tr));
+
+  })));
+
+</script>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+</body>
+
+</html>

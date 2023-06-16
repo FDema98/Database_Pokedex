@@ -1,0 +1,25 @@
+{
+  "name": "pokemon",
+  "version": "1.0.0",
+  "main": "pokemon.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "author": "Federico De Mattia",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "bootstrap": "^5.1.1",
+    "chart.js": "^3.5.1",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "jquery": "^3.6.0",
+    "mongodb": "^4.1.1",
+    "rangeslider.js": "^2.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "description": ""
+}
